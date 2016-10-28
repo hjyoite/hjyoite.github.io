@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Kin&#39;s Blog</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2016-10-28T18:05:41.000Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>Kin</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Joseph Circle 学习笔记</title>
+    <link href="http://yoursite.com/2013/11/13/Joseph-Circle/"/>
+    <id>http://yoursite.com/2013/11/13/Joseph-Circle/</id>
+    <published>2013-11-12T16:00:00.000Z</published>
+    <updated>2016-10-28T18:05:41.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>为了提高自己的算法能力，前几天在做poj上的题目，其中问题1012是约瑟夫环的变型，所以就顺带了解了一下约瑟夫环。</p>
+<h2 id="约瑟夫环"><a href="#约瑟夫环" class="headerlink" title="约瑟夫环"></a>约瑟夫环</h2><blockquote>
+<p>约瑟夫环是一个数学的应用问题：已知n个人（以编号1，2，3…n分别表示）围坐在一张圆桌周围。从编号为k的人开始报数，数到m的那个人出列；他的下一个人又从1开始报数，数到m的那个人又出列；依此规律重复下去，直到圆桌周围的人全部出列。<a href="http://baike.baidu.com/link?url=sgc0NsoaQCXzwuRLu-0kFaT5_3FPcF97p6ClS_1QBc10JEAbCXtyk8r1munD-ogG" target="_blank" rel="external">百度百科</a></p>
+</blockquote>
+<a id="more"></a>
+<h2 id="数学解法"><a href="#数学解法" class="headerlink" title="数学解法"></a>数学解法</h2><p>我原来的做法是模拟整个游戏过程，求出最后出列的人是谁，但这样做求解会超时，所以就上网搜了下，才发现原来有数学方法来解决这个问题，</p>
+<p>以下的方法摘自<a href="http://baike.baidu.com/link?url=sgc0NsoaQCXzwuRLu-0kFaT5_3FPcF97p6ClS_1QBc10JEAbCXtyk8r1munD-ogG" target="_blank" rel="external">百度百科</a>，修改了一些表述，添加了一些说明:</p>
+<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>n个人（编号0 ~ (n-1)），从0开始报数，报到m-1的退出，剩下的人继续从0开始报数，求胜利者的编号。</p>
+<h3 id="求解过程"><a href="#求解过程" class="headerlink" title="求解过程"></a>求解过程</h3><p>我们知道当第一个人（编号为（m-1）% n) 出列之后，剩下的n-1个人组成了一个新的约瑟夫环（以编号为k=m%n的人开始）：</p>
+<pre><code>k, k+1, k+2, ... n-2, n-1, 0, 1, 2, ... k-2
+</code></pre><p>并且从k开始报0。</p>
+<p>我们把他们的编号做一下转换：</p>
+<pre><code>k --&gt; 0
+
+k+1 --&gt; 1
+
+k+2 --&gt; 2
+
+...
+
+k-3 --&gt; n-3
+
+k-2 --&gt; n-2
+</code></pre><p>序列1：0, 1, 2, 3, … n-2, n-1 (第一轮开始时的约瑟夫环)</p>
+<p>序列2：0, 1, 2, 3, … k-2, k，…，n-2, n-1 (编号为(m-1) % n的人离开后)</p>
+<p>序列3：k, k+1, k+2, k+3, … n-2, n-1, 0, 1, 2, 3, … k-2 (以编号为k = m % n的人开始组成一个新的约瑟夫环)</p>
+<p>序列4：0, 1, 2, 3, … 5, 6, 7, 8, … n-3, n-2 (k从0开始报数，将他们的编号做一下转换)</p>
+<p>编号转换后，新的一轮报数就成为了(n-1)个人的约瑟夫环问题，假如我们知道这个子问题的解：例如x是最终的胜利者，那么根据上面这个表，我们就可以把这个x转换回n个人约瑟夫环的第二轮报数的解。</p>
+<p>变回去的公式如下：</p>
+<pre><code>∵ k = m % n
+
+∴ x&apos; = x + k = x + m % n ; 而 x + m%n 可能大于n
+
+∴ x&apos; = (x + m % n) % n = (x + m) % n
+</code></pre><p>得到 x’ = (x + m) % n 。</p>
+<p>要求(n-1)个人约瑟夫环问题的解，我们需要知道(n-2)个人约瑟夫环问题的解。而求(n-2)个人时的解，又需要知道(n-3)的情况。如此类推，这是一个倒推的问题，从1个人的约瑟夫环开始考虑，我们需要一个递推公式，如下所示：</p>
+<p>令f[i]表示 (1)i个人，(2)报m-1时退出 的约瑟夫环的最后胜利者的编号，最后我们要得到的结果是f[n]。</p>
+<pre><code>f[1] = 0;
+
+f[i] = (f[i-1] + m) % i; (i &gt; 1）
+</code></pre><p>有了这个递推公式，我们可以求出f[n]的值，且f[n]便是n个人约瑟夫环问题的最后胜利者。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;为了提高自己的算法能力，前几天在做poj上的题目，其中问题1012是约瑟夫环的变型，所以就顺带了解了一下约瑟夫环。&lt;/p&gt;
+&lt;h2 id=&quot;约瑟夫环&quot;&gt;&lt;a href=&quot;#约瑟夫环&quot; class=&quot;headerlink&quot; title=&quot;约瑟夫环&quot;&gt;&lt;/a&gt;约瑟夫环&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;约瑟夫环是一个数学的应用问题：已知n个人（以编号1，2，3…n分别表示）围坐在一张圆桌周围。从编号为k的人开始报数，数到m的那个人出列；他的下一个人又从1开始报数，数到m的那个人又出列；依此规律重复下去，直到圆桌周围的人全部出列。&lt;a href=&quot;http://baike.baidu.com/link?url=sgc0NsoaQCXzwuRLu-0kFaT5_3FPcF97p6ClS_1QBc10JEAbCXtyk8r1munD-ogG&quot;&gt;百度百科&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="blog" scheme="http://yoursite.com/categories/blog/"/>
+    
+    
+      <category term="code" scheme="http://yoursite.com/tags/code/"/>
+    
+      <category term="algorithm" scheme="http://yoursite.com/tags/algorithm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>用Python写爬虫</title>
+    <link href="http://yoursite.com/2013/09/29/Python-Crawler/"/>
+    <id>http://yoursite.com/2013/09/29/Python-Crawler/</id>
+    <published>2013-09-28T16:00:00.000Z</published>
+    <updated>2016-10-28T18:05:53.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="请求页面"><a href="#请求页面" class="headerlink" title="请求页面"></a>请求页面</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> urllib2</div><div class="line">response = urllib2.urlopen(<span class="string">'http://www.baidu.com'</span>)</div><div class="line">html = response.read()</div></pre></td></tr></table></figure>
+<p><code>urllib2.urlopen()</code>打开网页页面，返回<code>response</code>对象，<code>response</code>类似于文件对象，通过使用<code>read()</code>函数读取返回的页面内容。其中要注意的是，填写的url字符串要包含url的类型，如http，ftp等，如果只写www.baidu.com，会抛出错误unknown url type。<br><a id="more"></a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">req = urllib2.Request(<span class="string">'http://www.baidu.com'</span>)</div><div class="line">response = urllib2.urlopen(req)</div></pre></td></tr></table></figure>
+<p>也可使用<code>urllib2.Request()</code>构造url请求，通过<code>urllib2.urlopen(req)</code>请求页面。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">headers = &#123;</div><div class="line">    <span class="string">'Host'</span> : <span class="string">'www.baidu.com'</span></div><div class="line">    <span class="string">'User-Agent'</span> : <span class="string">'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0'</span></div><div class="line">    <span class="string">'Referer'</span> : <span class="string">'http://www.baidu.com'</span></div><div class="line">&#125;</div><div class="line">req = urllib2.Request(url=<span class="string">'http://tieba.baidu.com'</span>, headers=headers)</div></pre></td></tr></table></figure>
+<p>在构造<code>Request</code>请求时，可以添加headers来模仿Http头信息（headers是字典类型）。其中，User-Agent属性用于伪装浏览器发出Http请求；Referer属性表明链接是从哪里发起。如我在 <a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a> 这个页面点击贴吧的链接 <a href="http://tieba.baidu.com" target="_blank" rel="external">http://tieba.baidu.com</a> ，那么在发起的Http请求中，我们可以看到它的Referer就是 <a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a> 。曾在某篇文章中看过，某些网站是通过检查Referer这个属性来判断外链，从而拒绝外链的访问，因此通过修改Referer，我们可以伪装成站内请求，爬取所需的信息。而我个人的经验，在爬取新浪微博的某些信息时，也遇过需要填写Referer才能获取正确的返回内容。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> urllib, urllib2</div><div class="line">formdata = &#123;</div><div class="line">            <span class="string">"entry"</span> : <span class="string">'weibo'</span>,</div><div class="line">            <span class="string">"service"</span> : <span class="string">'miniblog'</span>,</div><div class="line">            <span class="string">"pwencode"</span> : <span class="string">'rsa2'</span>,</div><div class="line">            <span class="string">"encoding"</span> : <span class="string">'UTF-8'</span>,</div><div class="line">            <span class="string">"url"</span> : <span class="string">'http://weibo.com/ajaxlogin.php?framelogin=1&amp;callback=parent.sinaSSOController.feedBackUrlCallBack'</span>,</div><div class="line">            <span class="string">"returntype"</span> : <span class="string">'META'</span></div><div class="line">            &#125;</div><div class="line">req = urllib2.Request(url=<span class="string">"http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.2)"</span>, data=urllib.urlencode(formdata))</div><div class="line">urllib2.urlopen(req)</div></pre></td></tr></table></figure>
+<p>Http请求分为了Get和Post两种类型，Get只向服务器请求数据，而Post则还向服务器发送数据，如在登录网站时，发送表单中的用户名和密码。Python中，我们首先使用字典类型存储要发送的数据，然后通过<code>urllib.urlencode)()</code>对其进行编码（注意是<code>urllib</code>，不是<code>urllib2</code>），最后作为参数data传入<code>urllib2.Request()</code>，构造Http的Post请求。</p>
+<p>为了研究从哪些url链接可以请求到我们要爬取的内容，以及Http头的哪些信息是在发起有效请求时所必须的，我们常常要捕获浏览器与服务器进行交互时的Http请求。对此，我使用的是Firefox上的一个插件<a href="http://livehttpheaders.mozdev.org/" target="_blank" rel="external">Live Http Headers</a>，它不但能截获和显示所有的Http请求。其中的replay功能，还能让我们修改截下来的请求中的信息，并重新将它们发送给服务器。</p>
+<h2 id="分析页面"><a href="#分析页面" class="headerlink" title="分析页面"></a>分析页面</h2><ul><br>    <li><code>正则表达式</code>：适合提取具有特定模式的数据，但要写正则表达式，有时候比较麻烦。</li><br>    <li><code>HTMLParser</code>：Python自带的分析HTML的库，用起来不够简便。而且兼容性不够好，经常会抛出malformed tag之类的错误，特别是遇到JavaScript。</li><br>    <li><code>BeautifulSoup</code>：用于分析HTML类文件的第三方库，简单易用，非常强大，而且兼容性也很好。</li><br></ul>
+
+]]></content>
+    
+    <summary type="html">
+    
+      Python, crawler
+    
+    </summary>
+    
+      <category term="blog" scheme="http://yoursite.com/categories/blog/"/>
+    
+    
+      <category term="code" scheme="http://yoursite.com/tags/code/"/>
+    
+      <category term="crawler" scheme="http://yoursite.com/tags/crawler/"/>
+    
+  </entry>
+  
+</feed>
