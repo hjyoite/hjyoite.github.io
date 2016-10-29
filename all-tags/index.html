@@ -77,7 +77,7 @@
                         >
                     
                         <i class="sidebar-button-icon fa fa-lg fa-home"></i>
-                        <span class="sidebar-button-desc">Home</span>
+                        <span class="sidebar-button-desc">Inicio</span>
                     </a>
             </li>
             
@@ -89,7 +89,7 @@
                         >
                     
                         <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
-                        <span class="sidebar-button-desc">Categories</span>
+                        <span class="sidebar-button-desc">Categorías</span>
                     </a>
             </li>
             
@@ -101,7 +101,7 @@
                         >
                     
                         <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
-                        <span class="sidebar-button-desc">Tags</span>
+                        <span class="sidebar-button-desc">Etiquetas</span>
                     </a>
             </li>
             
@@ -113,7 +113,7 @@
                         >
                     
                         <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
-                        <span class="sidebar-button-desc">Archives</span>
+                        <span class="sidebar-button-desc">Archivos</span>
                     </a>
             </li>
             
@@ -125,7 +125,7 @@
                         >
                     
                         <i class="sidebar-button-icon fa fa-lg fa-search"></i>
-                        <span class="sidebar-button-desc">Search</span>
+                        <span class="sidebar-button-desc">Buscar</span>
                     </a>
             </li>
             
@@ -137,7 +137,7 @@
                         >
                     
                         <i class="sidebar-button-icon fa fa-lg fa-question"></i>
-                        <span class="sidebar-button-desc">About</span>
+                        <span class="sidebar-button-desc">Acerca de</span>
                     </a>
             </li>
             
@@ -173,12 +173,12 @@
                         ">
                 <div id="tags-archives" class="main-content-wrap">
     <form id="filter-form" action="#">
-        <input name="tag" type="text" class="form-control input--xlarge" placeholder="Search tag" autofocus="autofocus">
+        <input name="tag" type="text" class="form-control input--xlarge" placeholder="Buscar etiqueta" autofocus="autofocus">
     </form>
     <h4 class="archive-result text-color-base text-xlarge"
-        data-message-zero="no tag found"
-        data-message-one="1 tag found"
-        data-message-other="{n} tags found"></h4>
+        data-message-zero="no se encontraron etiquetas"
+        data-message-one="1 etiqueta encontrada"
+        data-message-other="{n} etiquetas encontradas"></h4>
 
         <section>
         
@@ -192,6 +192,10 @@
         
             <a class="tag tag--primary tag--small" href="#crawler-list" data-tag="crawler">
                 crawler
+            </a>
+        
+            <a class="tag tag--primary tag--small" href="#movie-list" data-tag="movie">
+                movie
             </a>
         
     </section>
@@ -210,7 +214,7 @@
                                 Joseph Circle 学习笔记
                             </a>
                             <span class="archive-post-date">
-                                 - nov 13, 2013
+                                 - 13 nov 2013
                             </span>
                         </li>
                     
@@ -230,7 +234,7 @@
                                 Joseph Circle 学习笔记
                             </a>
                             <span class="archive-post-date">
-                                 - nov 13, 2013
+                                 - 13 nov 2013
                             </span>
                         </li>
                     
@@ -239,7 +243,7 @@
                                 用Python写爬虫
                             </a>
                             <span class="archive-post-date">
-                                 - sep 29, 2013
+                                 - 29 sep 2013
                             </span>
                         </li>
                     
@@ -259,7 +263,27 @@
                                 用Python写爬虫
                             </a>
                             <span class="archive-post-date">
-                                 - sep 29, 2013
+                                 - 29 sep 2013
+                            </span>
+                        </li>
+                    
+                </ul>
+            </div>
+        
+            <div id="movie-list" class="archive box" data-tag="movie">
+                <h4 class="archive-title">
+                    <a class="link-unstyled" href="/tags/movie">
+                        movie (1)
+                    </a>
+                </h4>
+                <ul class="archive-posts">
+                    
+                        <li class="archive-post">
+                            <a class="archive-post-title" href="/2016/10/29/movie/">
+                                电影清单
+                            </a>
+                            <span class="archive-post-date">
+                                 - 29 oct 2016
                             </span>
                         </li>
                     
@@ -289,14 +313,14 @@
         
             <h4 id="about-card-name">Kin</h4>
         
-            <div id="about-card-bio"><p>null</p>
+            <div id="about-card-bio"><p>author.bio</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>coder@Tencent</p>
+                <p>author.job</p>
 
             </div>
         
@@ -320,7 +344,7 @@
             </form>
         </div>
         <div class="modal-body">
-            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="no-result text-color-light text-center">no se encontraron artículos</div>
             <div class="results">
                 
                 <div class="media">
@@ -365,14 +389,33 @@
                     <hr>
                 </div>
                 
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://yoursite.com/2016/10/29/movie/">
+                            <h3 class="media-heading">电影清单</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Oct 29, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
             </div>
         </div>
         <div class="modal-footer">
             <p class="results-count text-medium"
-                data-message-zero="no post found"
-                data-message-one="1 post found"
-                data-message-other="{n} posts found">
-                2 posts found
+                data-message-zero="no se encontraron artículos"
+                data-message-one="1 artículo encontrado"
+                data-message-other="{n} artículos encontrados">
+                3 artículos encontrados
             </p>
         </div>
     </div>
